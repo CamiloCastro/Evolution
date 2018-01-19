@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface PopulationInitialization<T> {
 
-    List<Individual<T>> init();
+    List<T> init();
 
 }

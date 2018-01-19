@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface SelectionMethod<T> {
 
-    void init(List<Individual<T>> individuals);
+    void init(List<T> individuals);
 
-    Individual<T> select(List<Individual<T>> individuals);
+    T select(List<T> individuals);
 
 }

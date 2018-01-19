@@ -1,18 +1,21 @@
 package com.co.evolution.initialization;
 
-import com.co.evolution.model.Individual;
+import com.co.evolution.individual.RealIndividual;
 import com.co.evolution.model.PopulationInitialization;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 @AllArgsConstructor
-public class RandomRealInitialization implements PopulationInitialization<Double> {
+public class RandomRealInitialization implements PopulationInitialization<RealIndividual> {
 
     int size;
+    double min;
+    double max;
 
     @Override
-    public List<Individual<Double>> init() {
+    public List<RealIndividual> init() {
+
         return null;
     }
 }

@@ -22,8 +22,8 @@ public class GeneticAlgorithm<T> extends Algorithm<T> {
     @Override
     public void apply() {
         int iteration = 1;
-        List<Individual<T>> pop = getInitialization().init();
-        Individual<T> best = null;
+        List<T> pop = getInitialization().init();
+        T best = null;
         while(getTerminationCondition().getCondition(iteration, best, 0))
         {
 

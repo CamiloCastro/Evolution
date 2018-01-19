@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface GeneticOperator<T> {
 
-    List<Individual<T>> apply(List<Individual<T>> individuals);
+    List<Individual<T>> apply(List<T> individuals);
 
 }

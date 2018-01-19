@@ -21,5 +21,4 @@ public abstract class Individual<T> {
         this.fitness = fitness;
     }
 
-    public abstract Integer compareTo(Individual<T> otherIndividual);
 }
