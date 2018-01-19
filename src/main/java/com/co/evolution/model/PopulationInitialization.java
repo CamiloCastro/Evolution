@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface PopulationInitialization<T> {
 
-    List<T> init();
+    List<T> init(FitnessCalculation<T> fitnessCalculation);
 
 }

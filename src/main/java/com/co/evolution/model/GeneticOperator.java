@@ -1,9 +1,14 @@
 package com.co.evolution.model;
 
+import lombok.Data;
+
 import java.util.List;
 
-public interface GeneticOperator<T> {
+@Data
+public abstract class GeneticOperator<T> {
 
-    List<Individual<T>> apply(List<T> individuals);
+    int cardinal;
+
+    public abstract List<T> apply(List<T> individuals);
 
 }

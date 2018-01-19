@@ -11,22 +11,39 @@ package com.co.evolution.algorithm;
 
 import com.co.evolution.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GeneticAlgorithm<T> extends Algorithm<T> {
+public class GeneticAlgorithm<T extends Comparable<T>> extends Algorithm<T> {
 
-    public GeneticAlgorithm(List<ObjectiveFunction<T>> objectiveFunctions, List<GeneticOperator<T>> geneticOperators, TerminationCondition<T> terminationCondition, SelectionMethod<T> selectionMethod, boolean minimize, PopulationInitialization<T> initialization) {
-        super(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod, initialization, minimize);
+    public GeneticAlgorithm(List<ObjectiveFunction<T>> objectiveFunctions, List<GeneticOperator<T>> geneticOperators, TerminationCondition<T> terminationCondition, SelectionMethod<T> selectionMethod, boolean minimize, PopulationInitialization<T> initialization, FitnessCalculation<T> fitnessCalculation) {
+        super(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod, initialization, fitnessCalculation, minimize);
     }
 
     @Override
     public void apply() {
         int iteration = 1;
-        List<T> pop = getInitialization().init();
-        T best = null;
-        while(getTerminationCondition().getCondition(iteration, best, 0))
+        List<T> pop = getInitialization().init(getFitnessCalculation());
+        int size = pop.size();
+        T best = getBest(pop);
+        T bestBefore = null;
+        GeneticOperator<T> crossOp = getGeneticOperators().get(0);
+        GeneticOperator<T> mutateOp = getGeneticOperators().get(1);
+        while(getTerminationCondition().getCondition(iteration, best, bestBefore))
         {
-
+            List<T> newPop = new ArrayList<>();
+            int numInd = 0;
+            getSelectionMethod().init(pop);
+            while(numInd < size)
+            {
+                List<T> parents = getSelectionMethod().select(pop, crossOp.getCardinal());
+                List<T> crossingInd = crossOp.apply(parents);
+                List<T> mutateInd = mutateOp.apply(crossingInd);
+                newPop.addAll(mutateInd);
+                numInd += mutateInd.size();
+            }
+            bestBefore = best;
+            best = getBest(newPop);
             iteration++;
         }
     }

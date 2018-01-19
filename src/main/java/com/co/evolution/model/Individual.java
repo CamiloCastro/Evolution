@@ -21,4 +21,7 @@ public abstract class Individual<T> {
         this.fitness = fitness;
     }
 
+    public abstract void initRandom(T min, T max);
+
+    public abstract Individual<T> clone();
 }
