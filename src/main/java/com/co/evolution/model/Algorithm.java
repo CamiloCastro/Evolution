@@ -1,5 +1,6 @@
 package com.co.evolution.model;
 
+import com.co.evolution.model.individual.Individual;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
-public abstract class Algorithm<T extends Comparable<T>> {
+public abstract class Algorithm<T extends Individual<T>> {
 
     List<ObjectiveFunction<T>> objectiveFunctions;
     List<GeneticOperator<T>> geneticOperators;
@@ -17,7 +18,7 @@ public abstract class Algorithm<T extends Comparable<T>> {
     FitnessCalculation<T> fitnessCalculation;
     boolean minimize;
 
-    public abstract void apply();
+    public abstract List<T> apply();
 
     public T getBest(List<T> population)
     {

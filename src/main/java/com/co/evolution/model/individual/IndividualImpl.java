@@ -1,6 +1,6 @@
-package com.co.evolution.model;
+package com.co.evolution.model.individual;
 
-public abstract class Individual<T> {
+public abstract class IndividualImpl<T> implements Individual<T> {
 
     private T individual;
     private double fitness;

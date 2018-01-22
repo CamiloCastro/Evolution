@@ -1,13 +1,14 @@
 package com.co.evolution.demo;
 
 import com.co.evolution.algorithm.GeneticAlgorithm;
+import com.co.evolution.fitness.RealFitnessCalculation;
 import com.co.evolution.geneticoperators.RealCrossAverage;
 import com.co.evolution.geneticoperators.RealMutation;
 import com.co.evolution.individual.RealIndividual;
-import com.co.evolution.model.GeneticOperator;
-import com.co.evolution.model.ObjectiveFunction;
-import com.co.evolution.model.TerminationCondition;
+import com.co.evolution.initialization.RandomRealInitialization;
+import com.co.evolution.model.*;
 import com.co.evolution.objectivefunction.DummyObjectiveFunction;
+import com.co.evolution.selection.TournamentSelection;
 import com.co.evolution.terminationcondition.IterationsTerminationCondition;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class GeneticAlgorithmDemo {
         double max = 100.0;
         double sigma = 1.0;
         int MAX_ITERATIONS = 100;
+        int POPULATION_SIZE = 50;
 
         List<ObjectiveFunction<RealIndividual>> objectiveFunctions = new ArrayList<>();
         objectiveFunctions.add(new DummyObjectiveFunction());
@@ -31,7 +33,19 @@ public class GeneticAlgorithmDemo {
 
         TerminationCondition<RealIndividual> terminationCondition = new IterationsTerminationCondition(MAX_ITERATIONS);
 
-        GeneticAlgorithm<RealIndividual> ga = new GeneticAlgorithm<RealIndividual>(objectiveFunctions, geneticOperators, terminationCondition,,true,,);
+        SelectionMethod<RealIndividual> selectionMethod = new TournamentSelection(4);
+
+        PopulationInitialization<RealIndividual> initialization = new RandomRealInitialization(POPULATION_SIZE, min, max);
+
+        FitnessCalculation<RealIndividual> fitnessCalculation = new RealFitnessCalculation(objectiveFunctions);
+
+        GeneticAlgorithm<RealIndividual> ga = new GeneticAlgorithm<RealIndividual>(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod,true, initialization, fitnessCalculation);
+
+        List<RealIndividual> finalPop = ga.apply();
+
+        RealIndividual best = ga.getBest(finalPop);
+
+        System.out.println("Value: " + best.get() + " Fitness: " + best.getFitness());
 
 
 

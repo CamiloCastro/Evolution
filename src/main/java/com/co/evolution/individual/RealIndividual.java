@@ -1,6 +1,6 @@
 package com.co.evolution.individual;
 
-import com.co.evolution.model.Individual;
+import com.co.evolution.model.individual.Individual;
 import com.co.evolution.util.RandomUtils;
 
 public class RealIndividual extends Individual<Double> implements Comparable<RealIndividual> {
