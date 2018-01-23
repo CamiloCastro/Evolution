@@ -1,6 +1,7 @@
 package com.co.evolution.demo;
 
 import com.co.evolution.algorithm.GeneticAlgorithm;
+import com.co.evolution.algorithm.HAEA;
 import com.co.evolution.fitness.RealFitnessCalculation;
 import com.co.evolution.geneticoperators.RealCrossAverage;
 import com.co.evolution.geneticoperators.RealMutation;
@@ -39,7 +40,8 @@ public class GeneticAlgorithmDemo {
 
         FitnessCalculation<RealIndividual> fitnessCalculation = new RealFitnessCalculation(objectiveFunctions);
 
-        GeneticAlgorithm<RealIndividual> ga = new GeneticAlgorithm<RealIndividual>(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod,true, initialization, fitnessCalculation);
+        //GeneticAlgorithm<RealIndividual> ga = new GeneticAlgorithm<>(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod,true, initialization, fitnessCalculation);
+        HAEA<RealIndividual> ga = new HAEA<>(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod,true, initialization, fitnessCalculation);
 
         List<RealIndividual> finalPop = ga.apply();
 

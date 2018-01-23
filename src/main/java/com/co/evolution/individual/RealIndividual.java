@@ -1,9 +1,10 @@
 package com.co.evolution.individual;
 
 import com.co.evolution.model.individual.Individual;
+import com.co.evolution.model.individual.IndividualImpl;
 import com.co.evolution.util.RandomUtils;
 
-public class RealIndividual extends Individual<Double> implements Comparable<RealIndividual> {
+public class RealIndividual extends IndividualImpl<Double> {
 
     @Override
     public void initRandom(Double min, Double max) {
@@ -11,15 +12,10 @@ public class RealIndividual extends Individual<Double> implements Comparable<Rea
     }
 
     @Override
-    public Individual<Double> clone() {
+    public Individual clone() {
         RealIndividual ri = new RealIndividual();
         ri.set(get());
         ri.setFitness(getFitness());
         return ri;
-    }
-
-    @Override
-    public int compareTo(RealIndividual realIndividual) {
-        return Double.compare(this.getFitness(), realIndividual.getFitness());
     }
 }

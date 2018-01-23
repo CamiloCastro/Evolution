@@ -15,7 +15,7 @@ import com.co.evolution.model.individual.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneticAlgorithm<T extends Individual<T>> extends Algorithm<T> {
+public class GeneticAlgorithm<T extends Individual> extends Algorithm<T> {
 
     public GeneticAlgorithm(List<ObjectiveFunction<T>> objectiveFunctions, List<GeneticOperator<T>> geneticOperators, TerminationCondition<T> terminationCondition, SelectionMethod<T> selectionMethod, boolean minimize, PopulationInitialization<T> initialization, FitnessCalculation<T> fitnessCalculation) {
         super(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod, initialization, fitnessCalculation, minimize);
@@ -40,7 +40,7 @@ public class GeneticAlgorithm<T extends Individual<T>> extends Algorithm<T> {
                 List<T> parents = getSelectionMethod().select(pop, crossOp.getCardinal(), isMinimize());
                 List<T> crossingInd = crossOp.apply(parents);
                 List<T> mutateInd = mutateOp.apply(crossingInd);
-                mutateInd.forEach(t -> getFitnessCalculation().calculate(t));
+                mutateInd.forEach(t -> t.setFitness(getFitnessCalculation().calculate(t)));
                 newPop.addAll(mutateInd);
                 numInd += mutateInd.size();
             }

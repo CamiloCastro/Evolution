@@ -1,16 +1,12 @@
 package com.co.evolution.model.individual;
 
-public interface Individual<T> extends Comparable<T> {
-
-    public T get();
-
-    public void set(T individual);
+public interface Individual extends Comparable<Individual> {
 
     public double getFitness();
 
     public void setFitness(double fitness);
 
-    public abstract void initRandom(T min, T max);
+    @Override
+    int compareTo(Individual individual);
 
-    public abstract Individual<T> clone();
 }

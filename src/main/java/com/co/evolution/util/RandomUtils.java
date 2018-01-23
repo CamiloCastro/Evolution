@@ -33,6 +33,23 @@ public class RandomUtils {
         return hs;
     }
 
+    public static int nextIntegerWithDefinedDistribution(double[] distribution)
+    {
+        double[] acumm = new double[distribution.length];
+        acumm[0] = distribution[0];
+        for (int i = 1; i < distribution.length; i++) {
+            acumm[i] = acumm[i-1] + distribution[i];
+        }
+        double num = nextDouble(0,1);
+
+        for (int i = 0; i < distribution.length; i++) {
+            if(num < acumm[i])
+                return i;
+        }
+        return 0;
+
+    }
+
 
 
 }

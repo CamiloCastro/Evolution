@@ -15,7 +15,6 @@ public class RealFitnessCalculation extends FitnessCalculation<RealIndividual> {
     @Override
     public double calculate(RealIndividual individual) {
         List<ObjectiveFunction<RealIndividual>> functions = getObjectiveFunctions();
-        individual.setFitness(functions.get(0).apply(individual));
         return functions.get(0).apply(individual);
     }
 }

@@ -1,6 +1,6 @@
 package com.co.evolution.model.individual;
 
-public abstract class IndividualImpl<T> implements Individual<T> {
+public abstract class IndividualImpl<T> implements Individual {
 
     private T individual;
     private double fitness;
@@ -23,5 +23,10 @@ public abstract class IndividualImpl<T> implements Individual<T> {
 
     public abstract void initRandom(T min, T max);
 
-    public abstract Individual<T> clone();
+    public abstract Individual clone();
+
+    @Override
+    public int compareTo(Individual individual) {
+        return Double.compare(this.fitness, individual.getFitness());
+    }
 }

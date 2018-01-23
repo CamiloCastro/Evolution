@@ -8,7 +8,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
-public abstract class Algorithm<T extends Individual<T>> {
+public abstract class Algorithm<T extends Individual> {
 
     List<ObjectiveFunction<T>> objectiveFunctions;
     List<GeneticOperator<T>> geneticOperators;
