@@ -29,4 +29,9 @@ public abstract class IndividualImpl<T> implements Individual {
     public int compareTo(Individual individual) {
         return Double.compare(this.fitness, individual.getFitness());
     }
+
+    @Override
+    public abstract String toString();
+
+
 }

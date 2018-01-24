@@ -6,15 +6,14 @@ import com.co.evolution.model.ObjectiveFunction;
 
 import java.util.List;
 
-public class RealFitnessCalculation extends FitnessCalculation<RealIndividual> {
+public class SPEAFitnessCalculation extends FitnessCalculation<RealIndividual> {
 
-    public RealFitnessCalculation(List<ObjectiveFunction<RealIndividual>> objectiveFunctions) {
+    public SPEAFitnessCalculation(List<ObjectiveFunction<RealIndividual>> objectiveFunctions) {
         super(objectiveFunctions);
     }
 
     @Override
     public double calculate(RealIndividual individual, List<RealIndividual> population) {
-        List<ObjectiveFunction<RealIndividual>> functions = getObjectiveFunctions();
-        return functions.get(0).apply(individual);
+        return 0;
     }
 }

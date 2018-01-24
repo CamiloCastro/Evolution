@@ -9,4 +9,7 @@ public interface Individual extends Comparable<Individual> {
     @Override
     int compareTo(Individual individual);
 
+    @Override
+    String toString();
+
 }

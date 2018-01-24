@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 public abstract class Algorithm<T extends Individual> {
 
-    List<ObjectiveFunction<T>> objectiveFunctions;
     List<GeneticOperator<T>> geneticOperators;
     TerminationCondition<T> terminationCondition;
     SelectionMethod<T> selectionMethod;

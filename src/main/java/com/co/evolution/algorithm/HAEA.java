@@ -4,14 +4,13 @@ import com.co.evolution.model.*;
 import com.co.evolution.model.individual.Individual;
 import com.co.evolution.util.RandomUtils;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HAEA<T extends Individual> extends Algorithm<T> {
 
-    public HAEA(List<ObjectiveFunction<T>> objectiveFunctions, List<GeneticOperator<T>> geneticOperators, TerminationCondition<T> terminationCondition, SelectionMethod<T> selectionMethod, boolean minimize, PopulationInitialization<T> initialization, FitnessCalculation<T> fitnessCalculation) {
-        super(objectiveFunctions, geneticOperators, terminationCondition, selectionMethod, initialization, fitnessCalculation, minimize);
+    public HAEA(List<GeneticOperator<T>> geneticOperators, TerminationCondition<T> terminationCondition, SelectionMethod<T> selectionMethod, boolean minimize, PopulationInitialization<T> initialization, FitnessCalculation<T> fitnessCalculation) {
+        super(geneticOperators, terminationCondition, selectionMethod, initialization, fitnessCalculation, minimize);
     }
 
     @Override
@@ -21,18 +20,19 @@ public class HAEA<T extends Individual> extends Algorithm<T> {
         int size = pop.size();
         T best = getBest(pop);
         T bestBefore = null;
-        double[][] prob = new double[pop.size()][getGeneticOperators().size()];
-        for (int i = 0; i < pop.size(); i++) {
+        double[][] prob = new double[size][getGeneticOperators().size()];
+        for (int i = 0; i < size; i++) {
             for (int j = 0; j < getGeneticOperators().size(); j++) {
-                prob[i][j] = 1/getGeneticOperators().size();
+                prob[i][j] = 1.0/getGeneticOperators().size();
             }
         }
 
         while(getTerminationCondition().getCondition(iteration, best, bestBefore))
         {
+            System.out.println("Value: " + best.toString() + " Fitness: " + best.getFitness());
             List<T> newPop = new ArrayList<>();
             getSelectionMethod().init(pop);
-            for (int i = 0; i < pop.size(); i++) {
+            for (int i = 0; i < size; i++) {
                 T actualIndividual = pop.get(i);
                 int selectedOGIndex = RandomUtils.nextIntegerWithDefinedDistribution(prob[i]);
                 GeneticOperator<T> selectedGO = getGeneticOperators().get(selectedOGIndex);
@@ -44,18 +44,20 @@ public class HAEA<T extends Individual> extends Algorithm<T> {
                     parents.addAll(selectedParents);
                 }
                 List<T> children = selectedGO.apply(parents);
-                children.forEach(t -> t.setFitness(getFitnessCalculation().calculate(t)));
+                for (T child : children) {
+                    child.setFitness(getFitnessCalculation().calculate(child, pop));
+                }
                 children.add(actualIndividual);
                 T childrenBest = getBest(children);
                 if (childrenBest == actualIndividual || childrenBest.getFitness() == actualIndividual.getFitness())
                 {
                     //punish
-                    modifyProbabilites(-1, prob[i],selectedOGIndex);
+                    modifyProbabilities(-1, prob[i],selectedOGIndex);
                 }
                 else
                 {
                     //reward
-                    modifyProbabilites(1, prob[i],selectedOGIndex);
+                    modifyProbabilities(1, prob[i],selectedOGIndex);
                 }
                 newPop.add(childrenBest);
             }
@@ -68,7 +70,7 @@ public class HAEA<T extends Individual> extends Algorithm<T> {
         return pop;
     }
 
-    private void modifyProbabilites(int sign, double[] prob, int selectedOGIndex)
+    private void modifyProbabilities(int sign, double[] prob, int selectedOGIndex)
     {
         double num = RandomUtils.nextDouble(0,1);
         num *= sign;

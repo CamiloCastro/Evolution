@@ -3,31 +3,30 @@ package com.co.evolution.geneticoperators;
 import com.co.evolution.individual.RealIndividual;
 import com.co.evolution.model.GeneticOperator;
 import com.co.evolution.util.RandomUtils;
-import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-public class RealMutation extends GeneticOperator<RealIndividual> {
 
-    private double sigma;
-    private double mean;
+public class RealPickRandom extends GeneticOperator <RealIndividual> {
 
-    public RealMutation(double sigma, double mean)
+    private int select;
+
+    public RealPickRandom(int select)
     {
         setCardinal(1);
-        this.mean = mean;
-        this.sigma = sigma;
+        this.select = select;
     }
 
     @Override
     public List<RealIndividual> apply(List<RealIndividual> individuals) {
-        int dimensions = individuals.get(0).getDimensions();
         List<RealIndividual> newIndividuals = new ArrayList<>();
         for (RealIndividual individual : individuals) {
-            RealIndividual ri = new RealIndividual(dimensions);
-            for (int i = 0; i < dimensions; i++) {
-                ri.get()[i] = RandomUtils.nextGaussian(sigma, mean) + individual.get()[i];
+            RealIndividual ri = (RealIndividual) individual.clone();
+            HashSet<Integer> indexes = RandomUtils.getDifferentRandomIntegers(individual.getDimensions(),select);
+            for (Integer index : indexes) {
+                ri.get()[index] += RandomUtils.nextGaussian(1.0,0.0);
             }
             newIndividuals.add(ri);
         }

@@ -12,17 +12,20 @@ import java.util.List;
 public class RandomRealInitialization implements PopulationInitialization<RealIndividual> {
 
     int size;
-    double min;
-    double max;
+    Double[] min;
+    Double[] max;
+    int dimensions;
 
     @Override
     public List<RealIndividual> init(FitnessCalculation<RealIndividual> fitnessCalculation) {
         List<RealIndividual> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            RealIndividual ri = new RealIndividual();
+            RealIndividual ri = new RealIndividual(dimensions);
             ri.initRandom(min, max);
-            ri.setFitness(fitnessCalculation.calculate(ri));
             list.add(ri);
+        }
+        for (RealIndividual ri : list) {
+            ri.setFitness(fitnessCalculation.calculate(ri,list));
         }
         return list;
     }
