@@ -45,6 +45,9 @@ public class HAEA<T extends Individual> extends Algorithm<T> {
                 }
                 List<T> children = selectedGO.apply(parents);
                 for (T child : children) {
+                    for (int j = 0; j < getFitnessCalculation().getObjectiveFunctions().size(); j++) {
+                        child.getObjectiveFunctionValues().add(getFitnessCalculation().getObjectiveFunctions().get(j).apply(child));
+                    }
                     child.setFitness(getFitnessCalculation().calculate(child, pop));
                 }
                 children.add(actualIndividual);
@@ -64,6 +67,9 @@ public class HAEA<T extends Individual> extends Algorithm<T> {
             bestBefore = best;
             best = getBest(newPop);
             pop = newPop;
+            for (T t : pop) {
+                t.setFitness(getFitnessCalculation().calculate(t, pop));
+            }
             iteration++;
         }
 

@@ -1,9 +1,13 @@
 package com.co.evolution.model.individual;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class IndividualImpl<T> implements Individual {
 
     private T individual;
     private double fitness;
+    private List<Double> objectiveFunctionValues = new ArrayList<>();
 
     public T get() {
         return individual;
@@ -24,6 +28,11 @@ public abstract class IndividualImpl<T> implements Individual {
     public abstract void initRandom(T min, T max);
 
     public abstract Individual clone();
+
+    @Override
+    public List<Double> getObjectiveFunctionValues() {
+        return objectiveFunctionValues;
+    }
 
     @Override
     public int compareTo(Individual individual) {
